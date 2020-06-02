@@ -9,10 +9,12 @@ private:
     int size;
     std::vector<std::vector<int>> adjMatrix;
 public:
-    Graph() : size(0) {};
+    Graph() : size(0) {}
     //~Graph();
     void LoadMatrix(std::string & filename);
+    int GetSize() {return size;}
     void PrintMatrix();
+    void PrintShortestPathWeight(int s);
 };
 
 #endif

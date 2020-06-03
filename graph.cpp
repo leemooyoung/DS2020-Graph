@@ -15,6 +15,9 @@ void Graph::LoadMatrix(std::string & filename)
     for(int i = 0; i < size; i++)
         for(int j = 0; j < size; j++)
             fs >> adjMatrix[i][j];
+
+    solution.resize(size);
+    solution.clear();
 }
 
 void Graph::PrintMatrix()
@@ -28,13 +31,14 @@ void Graph::PrintMatrix()
     }
 }
 
-void Graph::PrintShortestPathWeight(int s)
+void Graph::ShortestPath(int s)
 {
-    int * dist = new int[size];
-    bool * found = new bool[size];
+    std::cout << "calculating : " << s << std::endl;
 
-    std::copy(adjMatrix[s].begin(), adjMatrix[s].end(), dist);
-    std::fill(found, found + size, false);
+    std::vector<int> dist(adjMatrix[s]);
+    std::vector<bool> found(size, false);
+    std::vector<std::vector<int>> path(size, std::vector<int>(1, s));
+
     found[s] = true;
 
     for(int i = 0; i < size - 2; i++)
@@ -48,22 +52,44 @@ void Graph::PrintShortestPathWeight(int s)
                 mindist = dist[j];
             }
         found[cur] = true;
+        path[cur].push_back(cur);
 
         for(int j = 0; j < size; j++)
-        {
             if(!found[j] && dist[cur] + adjMatrix[cur][j] < dist[j])
             {
                 dist[j] = dist[cur] + adjMatrix[cur][j];
+                path[j] = path[cur];
             }
-        }
     }
 
     for(int i = 0; i < size; i++)
-        std::cout << dist[i] << std::endl;
-    
-    //std::ostream_iterator<int, char> osi(std::cout, "\n");
-    //std::copy(dist, dist + size, osi);
+    {
+        solution[s][i].first = dist[i];
+        solution[s][i].second = path[i];
+    }
 
-    delete[] dist;
-    delete[] found;
+    std::cout << "complete : " << s << std::endl;
+}
+
+void Graph::PrintShortestPathWeight(int s)
+{
+    if(solution[s].size() == 0)
+        this->ShortestPath(s);
+    
+    for(int i = 0; i < size; i++)
+        std::cout << solution[s][i].first << std::endl;
+}
+
+void Graph::PrintShortestPath(int s)
+{
+    if(solution[s].size() == 0)
+        this->ShortestPath(s);
+    
+    for(int i = 0; i < size; i++)
+    {
+        std::vector<int>::iterator iter;
+        for(iter = solution[s][i].second.begin(); iter != solution[s][i].second.end(); iter++)
+            std::cout << *iter << " ";
+        std::cout << std::endl;
+    }
 }

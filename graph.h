@@ -8,6 +8,12 @@ class Graph
 private:
     int size;
     std::vector<std::vector<int>> adjMatrix;
+    std::vector<
+        std::vector<
+            std::pair<int, std::vector<int> >
+        >
+    > solution;
+    void ShortestPath(int s);
 public:
     Graph() : size(0) {}
     //~Graph();
@@ -15,6 +21,7 @@ public:
     int GetSize() {return size;}
     void PrintMatrix();
     void PrintShortestPathWeight(int s);
+    void PrintShortestPath(int s);
 };
 
 #endif

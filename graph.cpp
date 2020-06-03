@@ -30,7 +30,6 @@ void Graph::PrintMatrix()
 
 void Graph::PrintShortestPathWeight(int s)
 {
-    std::cout << "start" << std::endl;
     int * dist = new int[size];
     bool * found = new bool[size];
 
@@ -42,7 +41,7 @@ void Graph::PrintShortestPathWeight(int s)
     {
         int cur;
         int mindist = 0x7FFFFFFF;
-        for(int j = 0; i < size; i++)
+        for(int j = 0; j < size; j++)
             if(!found[j] && dist[j] <= mindist)
             {
                 cur = j;

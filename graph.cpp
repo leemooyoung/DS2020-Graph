@@ -33,7 +33,7 @@ void Graph::PrintMatrix()
 
 void Graph::ShortestPath(int s)
 {
-    std::cout << "calculating : " << s << std::endl;
+    //std::cout << "calculating : " << s << std::endl;
 
     std::vector<int> dist(adjMatrix[s]);
     std::vector<bool> found(size, false);
@@ -41,7 +41,7 @@ void Graph::ShortestPath(int s)
 
     found[s] = true;
 
-    for(int i = 0; i < size - 2; i++)
+    for(int i = 0; i < size - 1; i++)
     {
         int cur;
         int mindist = 0x7FFFFFFF;
@@ -63,12 +63,9 @@ void Graph::ShortestPath(int s)
     }
 
     for(int i = 0; i < size; i++)
-    {
-        solution[s][i].first = dist[i];
-        solution[s][i].second = path[i];
-    }
+        solution[s].push_back(std::pair<int, std::vector<int>>(dist[i], path[i]));
 
-    std::cout << "complete : " << s << std::endl;
+    //std::cout << "complete : " << s << std::endl;
 }
 
 void Graph::PrintShortestPathWeight(int s)
@@ -87,6 +84,8 @@ void Graph::PrintShortestPath(int s)
     
     for(int i = 0; i < size; i++)
     {
+        if(i == s)
+            continue;
         std::vector<int>::iterator iter;
         for(iter = solution[s][i].second.begin(); iter != solution[s][i].second.end(); iter++)
             std::cout << *iter << " ";
